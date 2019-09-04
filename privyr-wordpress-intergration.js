@@ -3,6 +3,7 @@ class PrivyrWP {
         this.license_code = license_code;
         this.field_names = {}
         this.initializeInputIdsToPrivyr();
+	console.log('func');
     }
 
     initializeInputIdsToPrivyr(){
