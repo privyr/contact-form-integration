@@ -1,0 +1,19 @@
+{
+  "name": "integration-sdk",
+  "version": "1.0.0",
+  "description": "Javascript SDK to integrate privyr with Client websites",
+  "main": "privyr-wordpress-intergration.js",
+  "scripts": {
+    "test": "echo \"No tests\" && exit 0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/privyr/integration-sdk.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/privyr/integration-sdk/issues"
+  },
+  "homepage": "https://github.com/privyr/integration-sdk#readme"
+}
