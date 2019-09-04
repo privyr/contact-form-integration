@@ -5,4 +5,4 @@ deploy:
   provider: s3
   access_key_id: AKIAUSNSPYXEK3XNHIGK
   secret_access_key: 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
-  bucket: integration-sdk
+  bucket: external-integration
