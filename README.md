@@ -11,4 +11,4 @@ If you are using contact form7, simply copy this code and paste in your wordpres
 
 ```<script async defer onload="initPrivyrWP('USER_PROFILE_CODE', 'WPCF7_NAME_FIELD', 'WPCF7_EMAIL_FIELD', 'WPCF7_PHONENUMBER_FIELD')" src="https://external-integration.s3-ap-southeast-1.amazonaws.com/privyr-wordpress-intergration.js"></script>```
 
-'USER_PROFILE_CODE': unique code given by Privyr to users. 
+```USER_PROFILE_CODE```: unique code given by Privyr to users. 
