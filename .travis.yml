@@ -9,3 +9,6 @@ deploy:
   bucket: external-integration
   on:
     repo: privyr/integration-sdk
+branches:
+  only:
+  - master
