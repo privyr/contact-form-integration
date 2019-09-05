@@ -1,36 +1,37 @@
 class PrivyrWP {
-    constructor(license_code){
-        this.license_code = license_code;
-        this.field_names = {}
-        this.initializeInputIdsToPrivyr();
-	console.log('func');
+    constructor(user_profile_code, name, email, phonenumber){
+        this.user_profile_code = user_profile_code;
+        this.field_names = {};
+        this.initializeInputIdsToPrivyr(name, email, phonenumber);
     }
 
-    initializeInputIdsToPrivyr(){
-        this.field_names['your-name'] = 'name';
-        this.field_names['your-email'] = 'email';
-        this.field_names['your-phonenumber'] = 'phonenumber'; 
+    initializeInputIdsToPrivyr(name, email, phonenumber){
+        this.field_names[name] = 'name';
+        this.field_names[email] = 'email';
+        this.field_names[phonenumber] = 'phonenumber'; 
     }
 
     mapIds(inputs) {
         var self = this;
         inputs.map(function (object) {
-            object["name"] = self.field_names[object['name']];
+            if (self.field_names[object['name']]) {
+                object["name"] = self.field_names[object['name']];
+            }
         });
-         console.log('xxx', inputs);
         return inputs;
     }
     
     postLeads(lead) {
         var payload = {
-            'license_code': this.license_code,
+            'user_profile_code': this.user_profile_code,
             'lead': lead
         }
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://www.localhost:8000/integrations/api/v1/new-wp-pvyr-lead');
+        xhr.open('POST', 'http://www.localhost:8000/integrations/api/v1/new-wpcf7-lead');
         xhr.onload= function() {
             console.log(xhr.status);
         };
+        xhr.setRequestHeader( "Content-Type", "application/json" );
         xhr.send(JSON.stringify(payload));
     }
 
@@ -38,14 +39,13 @@ class PrivyrWP {
         var self = this;
         document.addEventListener('wpcf7submit', function(event) {
             var inputs = event.detail.inputs;
-            console.log('inputsxxxx ', inputs);
             self.postLeads(self.mapIds(inputs));
         }, false);
     }
 }
 
-function initPrivyrWP(license_code) {
-    privyrWP = new PrivyrWP(license_code);
+function initPrivyrWP(user_profile_code, name="your-name", email="your-email", phonenumber="tel") {
+    privyrWP = new PrivyrWP(user_profile_code, name, email, phonenumber);
     document.onreadystatechange = function() {
         if(document.readyState == "complete") {
             privyrWP.captureLeads();
