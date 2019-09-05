@@ -2,7 +2,7 @@
 
 This sdk helps users to capture leads from their websites and push directly to Privyr without manual intervention.
 Implemented for wordpress contact form 7 for now, will be extended to different contact forms.
-CI implemented with travis
+CI implemented with travis. Automates build creation on git push from master and pushes code to AWS S3.
 
 
 ### Wordpress Contact form7
