@@ -13,7 +13,7 @@ class PrivyrWP {
 
     mapIds(inputs) {
         var self = this;
-        inputs.map(function (object) {
+        inputs.forEach(function(object) {
             if (self.field_names[object['name']]) {
                 object["name"] = self.field_names[object['name']];
             }
