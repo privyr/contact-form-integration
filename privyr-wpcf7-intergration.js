@@ -29,7 +29,7 @@ class PrivyrWP {
     postLeads(lead) {
         var payload = {
             'licence_code': this.licence_code,
-            'lead': lead
+            'lead':lead
         };
         var xhr = new XMLHttpRequest();
         var post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
