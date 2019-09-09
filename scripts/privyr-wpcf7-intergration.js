@@ -3,7 +3,7 @@ class PrivyrWP {
         this.licence_code = licence_code;
         this.field_names = {};
         this.initializeInputIdsToPrivyr(name, email, phonenumber);
-        document.onreadystatechange = function () {
+        document.onreadystatechange = () => {
             console.log('hshshshhshs');
             if (document.readyState === "complete") {
                 window['_privyr_wpcf7'].captureLeads();
@@ -18,8 +18,8 @@ class PrivyrWP {
     }
 
     mapIds(inputs) {
-        var self = this;
-        inputs.forEach(function (object) {
+        let self = this;
+        inputs.map((object) => {
             if (self.field_names[object['name']]) {
                 object["name"] = self.field_names[object['name']];
             }
@@ -28,14 +28,14 @@ class PrivyrWP {
     }
 
     postLeads(lead) {
-        var payload = {
+        let payload = {
             'licence_code': this.licence_code,
             'lead': lead
         };
-        var xhr = new XMLHttpRequest();
-        var post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
+        let xhr = new XMLHttpRequest();
+        let post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
         xhr.open('POST', post_url);
-        xhr.onload = function () {
+        xhr.onload = () => {
             console.log(xhr.status);
         };
         xhr.setRequestHeader("Content-Type", "application/json");
@@ -43,9 +43,9 @@ class PrivyrWP {
     }
 
     captureLeads() {
-        var self = this;
-        document.addEventListener('wpcf7submit', function (event) {
-            var inputs = event.detail.inputs;
+        let self = this;
+        document.addEventListener('wpcf7submit', (event) => {
+            let inputs = event.detail.inputs;
             self.postLeads(self.mapIds(inputs));
         }, false);
     }
