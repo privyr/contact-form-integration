@@ -9,6 +9,17 @@ CI implemented with travis. Automates build creation on git push from master and
 If you are using contact form7, simply copy this code and paste in your wordpress site.
 (If no plugin is installed for headers and footers, install [this](https://wordpress.org/plugins/insert-headers-and-footers/)  plugin and then paste below code).
 
-```<script async defer onload="initPrivyrWP('USER_PROFILE_CODE', 'WPCF7_NAME_FIELD', 'WPCF7_EMAIL_FIELD', 'WPCF7_PHONENUMBER_FIELD')" src="https://external-integration.s3-ap-southeast-1.amazonaws.com/privyr-wordpress-intergration.js"></script>```
+```html
+/* --- Privyr Contact Form 7 Integration --- */ 
+<script async defer  src="https://external-integration.s3-ap-southeast-1.amazonaws.com/privyr-wordpress-intergration.js"></script>
+<script>
+window['_pvyr_wpcf7_code'] = '<Enter licence code here>';
+window['_pvyr_host'] = 'privyr.com';
+(function(c, n, e, p){
+    window['_privyr_wpcf7'] = new PrivyrWP(window['_pvyr_wpcf7_code'], "your-name",  "your-email" , "tel");
+})(window, document);
+<script>
+/* --- End Privyr Contact Form 7 Integration --- */ 
+```
 
-```USER_PROFILE_CODE```: unique code given by Privyr to users. 
+`LICENCE_CODE`: Unique code given by Privyr to users. To find out your licence key, open Privyr > Settings > Integrations > Wordpress Contact form. 

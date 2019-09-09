@@ -1,8 +1,13 @@
 class PrivyrWP {
-    constructor(user_profile_code, name, email, phonenumber){
-        this.user_profile_code = user_profile_code;
+    constructor(licence_code, name, email, phonenumber){
+        this.licence_code = licence_code;
         this.field_names = {};
         this.initializeInputIdsToPrivyr(name, email, phonenumber);
+        document.onreadystatechange = function() {
+            if(document.readyState === "complete") {
+                window['_privyr_wpcf7'].captureLeads();
+            }
+        }
     }
 
     initializeInputIdsToPrivyr(name, email, phonenumber){
@@ -23,11 +28,12 @@ class PrivyrWP {
     
     postLeads(lead) {
         var payload = {
-            'user_profile_code': this.user_profile_code,
+            'licence_code': this.licence_code,
             'lead': lead
-        }
+        };
         var xhr = new XMLHttpRequest();
-        xhr.open('POST', 'http://www.localhost:8000/integrations/api/v1/new-wpcf7-lead');
+        var post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
+        xhr.open('POST', post_url);
         xhr.onload= function() {
             console.log(xhr.status);
         };
@@ -44,11 +50,3 @@ class PrivyrWP {
     }
 }
 
-function initPrivyrWP(user_profile_code, name="your-name", email="your-email", phonenumber="tel") {
-    privyrWP = new PrivyrWP(user_profile_code, name, email, phonenumber);
-    document.onreadystatechange = function() {
-        if(document.readyState == "complete") {
-            privyrWP.captureLeads();
-        }
-    }
-}
