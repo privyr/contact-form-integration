@@ -18,7 +18,7 @@ window['_pvyr_host'] = 'privyr.com';
 (function(c, n, e, p){
     window['_privyr_wpcf7'] = new PrivyrWP(window['_pvyr_wpcf7_code'], "your-name",  "your-email" , "tel");
 })(window, document);
-<script>
+</script>
 /* --- End Privyr Contact Form 7 Integration --- */ 
 ```
 
