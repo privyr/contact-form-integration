@@ -9,7 +9,7 @@ deploy:
   bucket: external-integration
   on:
     repo: privyr/integration-sdk
-  local_dir: dist
+#  local_dir: dist
 #branches:
 #  only:
 #  - master
