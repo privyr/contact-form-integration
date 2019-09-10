@@ -11,7 +11,7 @@ If you are using contact form7, simply copy this code and paste in your wordpres
 
 ```html
 /* --- Privyr Contact Form 7 Integration --- */ 
-<script src="https://external-integration.s3-ap-southeast-1.amazonaws.com/privyr-wpcf7-intergration.js"></script>
+<script src="https://external-integration.s3-ap-southeast-1.amazonaws.com/release/privyr-wpcf7-intergration.js"></script>
 <script>
 window['_pvyr_wpcf7_code'] = '<Enter licence code here>';
 window['_pvyr_host'] = 'privyr.com';
