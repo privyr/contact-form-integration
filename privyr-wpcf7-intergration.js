@@ -30,7 +30,8 @@ class PrivyrWP {
         var payload = {
             'licence_code': this.licence_code,
             'lead':lead,
-            'hostname': window.location.hostname
+            'hostname': window.location.hostname,
+            'full_url': window.location.href
         };
         var xhr = new XMLHttpRequest();
         var post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
@@ -45,6 +46,10 @@ class PrivyrWP {
     captureLeads() {
         var self = this;
         document.addEventListener('wpcf7submit', function(event) {
+            var status = event.detail.apiResponse.status; // Possible values: "validation_failed", "mail_failed", "success"
+            // DO NOT Proceed if status is validation failed
+            if (status === "validation_failed"){return;}
+            // Proceed in other cases.
             var inputs = event.detail.inputs;
             self.postLeads(self.mapIds(inputs));
         }, false);
