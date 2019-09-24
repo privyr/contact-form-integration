@@ -11,6 +11,4 @@ deploy:
   acl: public_read
   on:
     repo: privyr/integration-sdk
-branches:
-  only:
-    - develop
+    branch: develop
