@@ -9,6 +9,7 @@ deploy:
   bucket: external-integration
   acl: public_read
   upload-dir: release
+  acl: public_read
   on:
     repo: privyr/integration-sdk
 branches:
