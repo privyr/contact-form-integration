@@ -3,7 +3,7 @@ const babel = require('gulp-babel');
 const concat = require('gulp-concat');
 const uglify = require('gulp-uglify');
 
-gulp.task('js', () => {
+gulp.task('integration-sdk', () => {
     return gulp.src('scripts/*.js')
         .pipe(babel())
         .pipe(concat('pvyr-wpcf7.min.js'))
