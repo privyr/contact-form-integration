@@ -14,4 +14,4 @@ deploy:
   detect_encoding: true
   on:
     repo: privyr/integration-sdk
-    branch: develop
+    branch: ft-add-build-process
