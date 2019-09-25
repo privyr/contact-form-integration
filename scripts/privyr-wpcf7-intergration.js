@@ -30,7 +30,9 @@ class PrivyrWP {
     postLeads(lead) {
         let payload = {
             'licence_code': this.licence_code,
-            'lead': lead
+            'lead':lead,
+            'hostname': window.location.hostname,
+            'full_url': window.location.href
         };
         let xhr = new XMLHttpRequest();
         let post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
@@ -45,6 +47,10 @@ class PrivyrWP {
     captureLeads() {
         let self = this;
         document.addEventListener('wpcf7submit', (event) => {
+            let status = event.detail.apiResponse.status; // Possible values: "validation_failed", "mail_failed", "success"
+            // DO NOT Proceed if status is validation failed
+            if (status === "validation_failed"){return;}
+            // Proceed in other cases.
             let inputs = event.detail.inputs;
             self.postLeads(self.mapIds(inputs));
         }, false);
