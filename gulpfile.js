@@ -8,5 +8,5 @@ gulp.task('integration-sdk', () => {
         .pipe(babel())
         .pipe(concat('pvyr-wpcf7.min.js'))
         .pipe(uglify())
-        .pipe(gulp.dest('dist'))
+        .pipe(gulp.dest('scripts'))
 });
