@@ -9,7 +9,7 @@ deploy:
   bucket: external-integration
   skip_cleanup: true
   local_dir: scripts
-  upload-dir: develop
+  upload-dir: $UPLOAD_DIR
   detect_encoding: true
   on:
     repo: privyr/integration-sdk
