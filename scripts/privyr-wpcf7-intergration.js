@@ -53,6 +53,6 @@ class PrivyrWP {
             // Proceed in other cases.
             let inputs = event.detail.inputs;
             self.postLeads(self.mapIds(inputs));
-        }, true);
+        }, false);
     }
 }
