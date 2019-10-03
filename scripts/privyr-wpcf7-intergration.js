@@ -4,7 +4,6 @@ class PrivyrWP {
         this.field_names = {};
         this.initializeInputIdsToPrivyr(name, email, phonenumber);
         document.onreadystatechange = () => {
-            console.log('hshshshhshs');
             if (document.readyState === "complete") {
                 window['_privyr_wpcf7'].captureLeads();
             }
@@ -30,7 +29,7 @@ class PrivyrWP {
     postLeads(lead) {
         let payload = {
             'license_code': this.license_code,
-            'lead':lead,
+            'lead': lead,
             'hostname': window.location.hostname,
             'full_url': window.location.href
         };

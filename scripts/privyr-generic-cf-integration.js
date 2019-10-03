@@ -63,7 +63,6 @@ class PrivyrGenericCfIntegration {
                     "value": i.value
                 });
             });
-            console.log(input_fields);
 
             // will be posting all leads.
             // Assumption is this listener will only be called after client side form validation is done.
