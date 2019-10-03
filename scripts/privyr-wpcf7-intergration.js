@@ -1,6 +1,6 @@
 class PrivyrWP {
-    constructor(licence_code, name, email, phonenumber) {
-        this.licence_code = licence_code;
+    constructor(license_code, name, email, phonenumber) {
+        this.license_code = license_code;
         this.field_names = {};
         this.initializeInputIdsToPrivyr(name, email, phonenumber);
         document.onreadystatechange = () => {
@@ -29,13 +29,13 @@ class PrivyrWP {
 
     postLeads(lead) {
         let payload = {
-            'licence_code': this.licence_code,
+            'license_code': this.license_code,
             'lead':lead,
             'hostname': window.location.hostname,
             'full_url': window.location.href
         };
         let xhr = new XMLHttpRequest();
-        let post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
+        let post_url = 'http://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
         xhr.open('POST', post_url);
         xhr.onload = () => {
             console.log(xhr.status);
