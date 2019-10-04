@@ -29,10 +29,10 @@ If you are using any other contact form, simply copy this code and paste in your
 /* --- Privyr Contact Form Integration --- */ 
 <script src="https://not-testing-integration.s3-ap-southeast-1.amazonaws.com/privyr-generic-cf-integration.js"></script>
 <script>
-window['_pvyr_wpcf7_code'] = '<Enter license code here>';
+window['_pvyr_cf_code'] = '<Enter license code here>';
 window['_pvyr_host'] = 'privyr.com';
 (function (c, n, e, p) {
-    window['_privyr_wpcf7'] = new PrivyrGenericCfIntegration(window['_pvyr_wpcf7_code'], "YOUR_FORM_ID_OR_NAME");
+    window['_privyr_cf'] = new PrivyrGenericCfIntegration(window['_pvyr_cf_code'], "YOUR_FORM_ID_OR_NAME");
 })(window, document);
 </script>
 /* --- End Privyr Contact Form Integration --- */ 
