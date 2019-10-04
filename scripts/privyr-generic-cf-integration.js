@@ -35,7 +35,7 @@ class PrivyrGenericCfIntegration {
             'luid': this._fetch_lead_user_id()
         };
         let xhr = new XMLHttpRequest();
-        let post_url = `http://www.${window['_pvyr_host']}/integrations/api/v1/new-generic-cf-lead`;
+        let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/new-generic-cf-lead`;
         xhr.open('POST', post_url);
         xhr.onload = () => {
             console.log(xhr.status);
