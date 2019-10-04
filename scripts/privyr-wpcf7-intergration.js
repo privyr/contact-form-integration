@@ -1,10 +1,9 @@
 class PrivyrWP {
-    constructor(licence_code, name, email, phonenumber) {
-        this.licence_code = licence_code;
+    constructor(license_code, name, email, phonenumber) {
+        this.license_code = license_code;
         this.field_names = {};
         this.initializeInputIdsToPrivyr(name, email, phonenumber);
         document.onreadystatechange = () => {
-            console.log('hshshshhshs');
             if (document.readyState === "complete") {
                 window['_privyr_wpcf7'].captureLeads();
             }
@@ -29,8 +28,8 @@ class PrivyrWP {
 
     postLeads(lead) {
         let payload = {
-            'licence_code': this.licence_code,
-            'lead':lead,
+            'license_code': this.license_code,
+            'lead': lead,
             'hostname': window.location.hostname,
             'full_url': window.location.href
         };
