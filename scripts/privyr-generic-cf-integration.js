@@ -44,7 +44,7 @@ class PrivyrGenericCfIntegration {
         xhr.send(JSON.stringify(payload));
     }
 
-    _prepare_input_obj = (inputElem, value) => {
+    _prepare_input_obj(inputElem, value) {
         return {
             "id": inputElem.id || '',
             "name": inputElem.name || '',
