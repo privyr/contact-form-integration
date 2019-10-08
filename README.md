@@ -30,10 +30,12 @@ If you are using any other contact form, simply copy this code and paste in your
 <script src="https://ei.privyr.com/pvyr-cf.min.js"></script>
 <script>
 window['_pvyr_cf_code'] = '<Enter license code here>';
-window['_pvyr_cf_id'] = '<Enter form name or id here>';
+window['_pvyr_cf_id'] = '<Enter form id here>';
+window['_pvyr_cf_name'] = '<Enter form name here>';
+window['_pvyr_cf_ele'] = '<Enter form element here>';
 window['_pvyr_host'] = 'privyr.com';
 (function (c, n, e, p) {
-    window['_privyr_cf'] = new PrivyrGenericCfIntegration(window['_pvyr_cf_code'], window['_pvyr_cf_id']);
+    window['_privyr_cf'] = new PrivyrGenericCfIntegration({"license_code": window['_pvyr_cf_code'], "form_id": window['_pvyr_cf_id'], "form_name": window['_pvyr_cf_name'], "form_ele": window['_pvyr_cf_ele']});
 })(window, document);
 </script>
 <!-- --- End Privyr Contact Form Integration ---  -->
