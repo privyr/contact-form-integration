@@ -1,11 +1,15 @@
 class PrivyrGenericCfIntegration {
-    constructor(license_code, form_id_or_name) {
+    constructor(config) {
+        let {license_code, form_id, form_name, form_ele} = config;
         this.license_code = license_code;
-        let self = this;
         document.onreadystatechange = () => {
             if (document.readyState === "complete") {
-                self.cform = document.getElementById(form_id_or_name) || document.getElementsByName(form_id_or_name);
-                window['_privyr_cf'].captureLeads();
+                if (form_ele) this.captureLeads(form_ele);
+                else {
+                    let cform = document.getElementById(form_id) || document.getElementsByName(form_name)[0];
+                    if (cform) this.captureLeads(cform);
+                    else console.error('form not configured!!');
+                }
             }
         }
     }
@@ -44,19 +48,28 @@ class PrivyrGenericCfIntegration {
         xhr.send(JSON.stringify(payload));
     }
 
+    _get_input_label(inputId) {
+        const labelElem = document.querySelectorAll(`label[for='${inputId}']`)
+        if (labelElem.length > 0){
+            return labelElem[0].outerText;
+        }
+        return null;
+    }
+
     _prepare_input_obj(inputElem, value) {
         return {
             "id": inputElem.id || '',
             "name": inputElem.name || '',
             "placeholder": inputElem.placeholder || '',
             "type": inputElem.type || '',
-            "value": value || ''
+            "value": value || '',
+            "label": this._get_input_label(inputElem.id) || ''
         }
     };
 
-    captureLeads() {
+    captureLeads(cform) {
         let self = this;
-        this.cform.addEventListener('submit', (event) => {
+        cform.addEventListener('submit', (event) => {
             let input_fields = [];
             let inputs = event.target.querySelectorAll('input');
             inputs.forEach(i => input_fields.push(this._prepare_input_obj(i, i.value)));
