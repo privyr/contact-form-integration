@@ -44,13 +44,22 @@ class PrivyrGenericCfIntegration {
         xhr.send(JSON.stringify(payload));
     }
 
+    _get_input_label(inputId) {
+        const labelElem = document.querySelectorAll(`label[for='${inputId}']`)
+        if (labelElem.length > 0){
+            return labelElem[0].outerText;
+        }
+        return null;
+    }
+
     _prepare_input_obj(inputElem, value) {
         return {
             "id": inputElem.id || '',
             "name": inputElem.name || '',
             "placeholder": inputElem.placeholder || '',
             "type": inputElem.type || '',
-            "value": value || ''
+            "value": value || '',
+            "label": this._get_input_label(inputElem.id) || ''
         }
     };
 
