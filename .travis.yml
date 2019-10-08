@@ -15,5 +15,5 @@ deploy:
   upload-dir: $UPLOAD_DIR
   detect_encoding: true
   on:
-    repo: privyr/integration-sdk
+    repo: privyr/contact-form-integration
     branch: master
