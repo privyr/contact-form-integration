@@ -13,13 +13,30 @@ If you are using contact form7, simply copy this code and paste in your wordpres
 /* --- Privyr Contact Form 7 Integration --- */ 
 <script src="https://ei.privyr.com/pvyr-wpcf7.min.js"></script>
 <script>
-window['_pvyr_wpcf7_code'] = '<Enter licence code here>';
+window['_pvyr_wpcf7_code'] = '<Enter license code here>';
 window['_pvyr_host'] = 'privyr.com';
 (function(c, n, e, p){
     window['_privyr_wpcf7'] = new PrivyrWP(window['_pvyr_wpcf7_code'], "your-name",  "your-email" , "tel");
 })(window, document);
 </script>
-/* --- End Privyr Contact Form 7 Integration --- */ 
+<!-- --- End Privyr Contact Form 7 Integration --- --> 
 ```
 
-`LICENCE_CODE`: Unique code given by Privyr to users. To find out your licence key, open Privyr > Settings > Integrations > Wordpress Contact form. 
+### Generic Contact form
+If you are using any other contact form, simply copy this code and paste in your site.
+
+```html
+<!-- --- Privyr Contact Form Integration ---  -->
+<script src="https://ei.privyr.com/privyr-generic-cf-integration.js"></script>
+<script>
+window['_pvyr_cf_code'] = '<Enter license code here>';
+window['_pvyr_cf_id'] = '<Enter form name or id here>';
+window['_pvyr_host'] = 'privyr.com';
+(function (c, n, e, p) {
+    window['_privyr_cf'] = new PrivyrGenericCfIntegration(window['_pvyr_cf_code'], window['_pvyr_cf_id']);
+})(window, document);
+</script>
+<!-- --- End Privyr Contact Form Integration ---  -->
+```
+
+`LICENSE_CODE`: Unique code given by Privyr to users. To find out your license key, open Privyr > Settings > Integrations > Wordpress Contact form. 

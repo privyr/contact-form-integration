@@ -2,7 +2,8 @@ language: node_js
 node_js:
   - node
 before_deploy:
-  - gulp contact-form-integration
+  - gulp contact-form7-integration
+  - gulp contact-form-generic-integration
 deploy:
   provider: s3
   access_key_id: AKIAUSNSPYXENENSH7ML
