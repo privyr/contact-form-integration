@@ -27,7 +27,7 @@ If you are using any other contact form, simply copy this code and paste in your
 
 ```html
 <!-- --- Privyr Contact Form Integration ---  -->
-<script src="https://ei.privyr.com/privyr-generic-cf-integration.js"></script>
+<script src="https://ei.privyr.com/pvyr-cf.min.js"></script>
 <script>
 window['_pvyr_cf_code'] = '<Enter license code here>';
 window['_pvyr_cf_id'] = '<Enter form name or id here>';
