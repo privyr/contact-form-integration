@@ -76,7 +76,6 @@ export default class PrivyrGenericCfIntegration {
                     Array.from(s.selectedOptions).map((elem, index) => elem.innerText).join())));
                 let textarea = event.target.querySelectorAll('textarea');
                 textarea.forEach(t => input_fields.push(this._prepare_input_obj(t, t.value)));
-                console.log(input_fields);
                 // will be posting all leads.
                 // Assumption is this listener will only be called after client side form validation is done.
                 self.postLeads(input_fields);
