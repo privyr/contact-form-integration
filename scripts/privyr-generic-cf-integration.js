@@ -1,15 +1,12 @@
-class PrivyrGenericCfIntegration {
+import * as Sentry from '@sentry/browser/dist/index'
+
+export default class PrivyrGenericCfIntegration {
     constructor(config) {
         let {license_code, form_id, form_name, form_ele} = config;
         this.license_code = license_code;
         document.onreadystatechange = () => {
             if (document.readyState === "complete") {
-                if (form_ele) this.captureLeads(form_ele);
-                else {
-                    let cform = document.getElementById(form_id) || document.getElementsByName(form_name)[0];
-                    if (cform) this.captureLeads(cform);
-                    else console.error('form not configured!!');
-                }
+                this.startApp(form_id, form_name, form_ele);
             }
         }
     }
@@ -49,8 +46,8 @@ class PrivyrGenericCfIntegration {
     }
 
     _get_input_label(inputId) {
-        const labelElem = document.querySelectorAll(`label[for='${inputId}']`)
-        if (labelElem.length > 0){
+        const labelElem = document.querySelectorAll(`label[for='${inputId}']`);
+        if (labelElem.length > 0) {
             return labelElem[0].outerText;
         }
         return null;
@@ -70,18 +67,50 @@ class PrivyrGenericCfIntegration {
     captureLeads(cform) {
         let self = this;
         cform.addEventListener('submit', (event) => {
-            let input_fields = [];
-            let inputs = event.target.querySelectorAll('input');
-            inputs.forEach(i => input_fields.push(this._prepare_input_obj(i, i.value)));
-            let selects = event.target.querySelectorAll('select');
-            selects.forEach(s => input_fields.push(this._prepare_input_obj(s,
-                Array.from(s.selectedOptions).map((elem, index) => elem.innerText).join())));
-            let textarea = event.target.querySelectorAll('textarea');
-            textarea.forEach(t => input_fields.push(this._prepare_input_obj(t, t.value)));
-            console.log(input_fields);
-            // will be posting all leads.
-            // Assumption is this listener will only be called after client side form validation is done.
-            self.postLeads(input_fields);
+            try {
+                let input_fields = [];
+                let inputs = event.target.querySelectorAll('input');
+                inputs.forEach(i => input_fields.push(this._prepare_input_obj(i, i.value)));
+                let selects = event.target.querySelectorAll('select');
+                selects.forEach(s => input_fields.push(this._prepare_input_obj(s,
+                    Array.from(s.selectedOptions).map((elem, index) => elem.innerText).join())));
+                let textarea = event.target.querySelectorAll('textarea');
+                textarea.forEach(t => input_fields.push(this._prepare_input_obj(t, t.value)));
+                console.log(input_fields);
+                // will be posting all leads.
+                // Assumption is this listener will only be called after client side form validation is done.
+                self.postLeads(input_fields);
+            } catch (err) {
+                Sentry.captureException(err);
+            }
         });
+    }
+
+    initializeAndConfigureSentry() {
+        let self = this;
+        Sentry.init({
+            dsn: 'https://ad94bc20259c4fa4b0feb9f1fc20e483@sentry.io/1407925',
+            defaultIntegrations: false
+        });
+        Sentry.configureScope(scope => {
+            scope.setUser({"license_code": self.license_code});
+            scope.setTag("hostname", window.location.hostname);
+        });
+    }
+
+    startApp(form_id, form_name, form_ele) {
+        // initialize sentry
+        this.initializeAndConfigureSentry();
+        // capture leads and catch exceptions if any
+        try {
+            if (form_ele) this.captureLeads(form_ele);
+            else {
+                let cform = document.getElementById(form_id) || document.getElementsByName(form_name)[0];
+                if (cform) this.captureLeads(cform);
+                else throw new Error('form not configured properly!!');
+            }
+        } catch (err) {
+            Sentry.captureException(err);
+        }
     }
 }
