@@ -106,7 +106,6 @@ export default class PrivyrGenericCfIntegration {
             if (form_ele) this.captureLeads(form_ele);
             else if (all_forms) {
                 let cforms = document.querySelectorAll('form');
-                textarea.forEach(t => input_fields.push(this._prepare_input_obj(t, t.value)));
                 let self = this;
                 cforms.forEach(cform => {
                    self.captureLeads(cform);
