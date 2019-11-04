@@ -10,11 +10,3 @@ gulp.task('contact-form7-integration', () => {
         .pipe(uglify())
         .pipe(gulp.dest('scripts'))
 });
-
-gulp.task('contact-form-generic-integration', () => {
-    return gulp.src('scripts/privyr-generic-cf-integration.js')
-        .pipe(babel())
-        .pipe(concat('pvyr-cf.min.js'))
-        .pipe(uglify())
-        .pipe(gulp.dest('scripts'))
-});

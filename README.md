@@ -35,10 +35,10 @@ window['_pvyr_cf_name'] = '<Enter form name here>';
 window['_pvyr_cf_ele'] = '<Enter form element here>';
 window['_pvyr_host'] = 'privyr.com';
 (function (c, n, e, p) {
-    window['_privyr_cf'] = new PrivyrGenericCfIntegration({"license_code": window['_pvyr_cf_code'], "form_id": window['_pvyr_cf_id'], "form_name": window['_pvyr_cf_name'], "form_ele": window['_pvyr_cf_ele']});
+    window['_privyr_cf'] = PrivyrGenericCfIntegration.run({"license_code": window['_pvyr_cf_code'], "form_id": window['_pvyr_cf_id'], "form_name": window['_pvyr_cf_name'], "form_ele": window['_pvyr_cf_ele'], "all_forms": true});
 })(window, document);
 </script>
-<!-- --- End Privyr Contact Form Integration ---  -->
+<!-- --- End Privyr Contact Form Integration ----->
 ```
 
 `LICENSE_CODE`: Unique code given by Privyr to users. To find out your license key, open Privyr > Settings > Integrations > Wordpress Contact form. 

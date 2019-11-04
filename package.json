@@ -4,7 +4,8 @@
   "description": "Javascript SDK to integrate privyr with Client websites",
   "main": "privyr-wordpress-intergration.js",
   "scripts": {
-    "test": "echo \"No tests\" && exit 0"
+    "test": "echo \"No tests\" && exit 0",
+    "build": "webpack --mode production"
   },
   "repository": {
     "type": "git",
@@ -16,12 +17,16 @@
     "url": "https://github.com/privyr/integration-sdk/issues"
   },
   "homepage": "https://github.com/privyr/integration-sdk#readme",
-  "dependencies": {
+  "devDependencies": {
+    "webpack": "^4.41.0",
+    "webpack-cli": "^3.3.9",
+    "babel-loader": "^8.0.6",
     "@babel/core": "^7.6.0",
     "@babel/preset-env": "^7.6.0",
     "gulp": "^4.0.2",
     "gulp-babel": "^8.0.0",
     "gulp-concat": "^2.6.1",
-    "gulp-uglify": "^3.0.2"
+    "gulp-uglify": "^3.0.2",
+    "@sentry/browser": "^5.6.3"
   }
 }

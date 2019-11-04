@@ -3,7 +3,7 @@ node_js:
   - node
 before_deploy:
   - gulp contact-form7-integration
-  - gulp contact-form-generic-integration
+  - npm run build
 deploy:
   provider: s3
   access_key_id: AKIAUSNSPYXENENSH7ML
