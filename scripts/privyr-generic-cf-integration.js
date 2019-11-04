@@ -2,11 +2,12 @@ import * as Sentry from '@sentry/browser/dist/index'
 
 export default class PrivyrGenericCfIntegration {
     constructor(config) {
-        let {license_code, form_id, form_name, form_ele} = config;
+        let {license_code, form_id, form_name, form_ele, all_forms} = config;
         this.license_code = license_code;
+        let self = this;
         document.onreadystatechange = () => {
             if (document.readyState === "complete") {
-                this.startApp(form_id, form_name, form_ele);
+                self.startApp(form_id, form_name, form_ele, all_forms);
             }
         }
     }
@@ -97,12 +98,20 @@ export default class PrivyrGenericCfIntegration {
         });
     }
 
-    startApp(form_id, form_name, form_ele) {
+    startApp(form_id, form_name, form_ele, all_forms) {
         // initialize sentry
         this.initializeAndConfigureSentry();
         // capture leads and catch exceptions if any
         try {
             if (form_ele) this.captureLeads(form_ele);
+            else if (all_forms) {
+                let cforms = document.querySelectorAll('form');
+                textarea.forEach(t => input_fields.push(this._prepare_input_obj(t, t.value)));
+                let self = this;
+                cforms.forEach(cform => {
+                   self.captureLeads(cform);
+                });
+            }
             else {
                 let cform = document.getElementById(form_id) || document.getElementsByName(form_name)[0];
                 if (cform) this.captureLeads(cform);
