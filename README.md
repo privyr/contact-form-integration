@@ -11,7 +11,7 @@ If you are using contact form7, simply copy this code and paste in your wordpres
 
 ```html
 /* --- Privyr Contact Form 7 Integration --- */ 
-<script src="https://ei.privyr.com/pvyr-wpcf7.min.js"></script>
+<script src="https://ei.privyr.com/v2/pvyr-wpcf7.min.js"></script>
 <script>
 window['_pvyr_wpcf7_code'] = '<Enter license code here>';
 window['_pvyr_host'] = 'privyr.com';
@@ -22,12 +22,29 @@ window['_pvyr_host'] = 'privyr.com';
 <!-- --- End Privyr Contact Form 7 Integration --- --> 
 ```
 
+### Ninja Contact form
+If you are using ninja contact form, simply copy this code and paste in your wordpress site.
+(If no plugin is installed for headers and footers, install [this](https://wordpress.org/plugins/insert-headers-and-footers/)  plugin and then paste below code).
+
+```html
+<!-- --- Privyr Contact Form Integration ---  -->
+<script src="https://ei.privyr.com/v2.1/pvyr-ninja-cf.min.js"></script>
+<script>
+        window['_pvyr_cf_code'] = '<Enter license code here>';
+        window['_pvyr_host'] = 'privyr.com';
+        (function (c, n, e, p) {
+            window['_privyr_cf'] = PrivyrNinjaCfIntegration.run_ninja({"license_code": window['_pvyr_cf_code']});
+        })(window, document);
+</script>
+<!-- --- End Privyr Contact Form Integration ----->
+```
+
 ### Generic Contact form
 If you are using any other contact form, simply copy this code and paste in your site.
 
 ```html
 <!-- --- Privyr Contact Form Integration ---  -->
-<script src="https://ei.privyr.com/pvyr-cf.min.js"></script>
+<script src="https://ei.privyr.com/v2/pvyr-cf.min.js"></script>
 <script>
 window['_pvyr_cf_code'] = '<Enter license code here>';
 window['_pvyr_cf_id'] = '<Enter form id here>';
