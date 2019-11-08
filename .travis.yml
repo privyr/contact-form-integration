@@ -16,4 +16,4 @@ deploy:
   detect_encoding: true
   on:
     repo: privyr/contact-form-integration
-    branch: develop
+    branch: master
