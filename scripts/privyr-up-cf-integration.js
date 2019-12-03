@@ -68,11 +68,11 @@ export default class PrivyrUPCfIntegration {
                 });
                 let selects = $(form_ref + ' select');
                 selects.each((id, col) => {
-                    input_fields.push(that._prepare_input_obj($(col)));
+                    input_fields.push(self._prepare_input_obj($(col)));
                 });
                 let textarea = $(form_ref + ' textarea');
                 textarea.each((id, col) => {
-                    input_fields.push(that._prepare_input_obj($(col)));
+                    input_fields.push(self._prepare_input_obj($(col)));
                 });
                 // will be posting all leads.
                 // Assumption is this listener will only be called after client side form validation is done.
