@@ -4,6 +4,7 @@
 
 const PrivyrGenericCfIntegration = require('./scripts/privyr-generic-cf-integration').default;
 const PrivyrNinjaCfIntegration = require('./scripts/privyr-ninja-cf-integration').default;
+const PrivyrUPCfIntegration = require('./scripts/privyr-up-cf-integration').default;
 
 module.exports = {
     run: function (config) {
@@ -11,5 +12,8 @@ module.exports = {
     },
     run_ninja: function (config) {
         new PrivyrNinjaCfIntegration(config);
+    },
+    run_up: function (config) {
+        new PrivyrUPCfIntegration(config);
     }
 };
