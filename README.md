@@ -61,6 +61,7 @@ window['_pvyr_host'] = 'privyr.com';
 ### Uplauncher Contact form
 If you are using uplauncher contact form or any other contact form with no button of type submit, 
 simply copy this code and paste in your site.
+`NOTE: Use either of id or class for form and button, whichever available.`
 
 ```html
 <!-- --- Privyr Contact Form Integration ---  -->
@@ -79,6 +80,5 @@ window['_pvyr_host'] = 'privyr.com';
 </script>
 <!-- --- End Privyr Contact Form Integration ----->
 ```
-NOTE: Use either of id or class for form and button, whichever available.
 
 `LICENSE_CODE`: Unique code given by Privyr to users. To find out your license key, open Privyr > Settings > Integrations > Wordpress Contact form. 
