@@ -45,4 +45,18 @@ module.exports = [{
             use: ['babel-loader']
         }]
     }
+}, {
+    entry: './app.js',
+    output: {
+        path: outputDir,
+        filename: 'pvyr-up-cf.min.js',
+        libraryTarget: 'var',
+        library: 'PrivyrUPCfIntegration'
+    },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            use: ['babel-loader']
+        }]
+    }
 }];

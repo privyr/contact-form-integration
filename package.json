@@ -28,5 +28,8 @@
     "gulp-concat": "^2.6.1",
     "gulp-uglify": "^3.0.2",
     "@sentry/browser": "^5.6.3"
+  },
+  "dependencies": {
+    "jquery": "^3.4.1"
   }
 }
