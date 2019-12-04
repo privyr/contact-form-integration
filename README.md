@@ -61,11 +61,12 @@ window['_pvyr_host'] = 'privyr.com';
 ### Uplauncher Contact form
 If you are using uplauncher contact form or any other contact form with no button of type submit, 
 simply copy this code and paste in your site.
-`NOTE: Use either of id or class for form and button, whichever available.`
+
+NOTE: Use either of id or class for form and button, whichever available.`
 
 ```html
 <!-- --- Privyr Contact Form Integration ---  -->
-<script src="https://ei.privyr.com/v2/pvyr-up-cf.min.js"></script>
+<script src="https://ei.privyr.com/v2.2/pvyr-up-cf.min.js"></script>
 <script>
 window['_pvyr_cf_code'] = '<Enter license code here>';
 window['_pvyr_cf_id'] = '<Enter form id here>';
