@@ -18,7 +18,7 @@ const outputDir = path.resolve('.', 'scripts');
 // };
 
 module.exports = [{
-    entry: './app.js',
+    entry: './app/generic-app.js',
     output: {
         path: outputDir,
         filename: 'pvyr-cf.min.js',
@@ -32,7 +32,7 @@ module.exports = [{
         }]
     }
 }, {
-    entry: './app.js',
+    entry: './app/ninja-app.js',
     output: {
         path: outputDir,
         filename: 'pvyr-ninja-cf.min.js',
@@ -46,7 +46,7 @@ module.exports = [{
         }]
     }
 }, {
-    entry: './app.js',
+    entry: './app/up-app.js',
     output: {
         path: outputDir,
         filename: 'pvyr-up-cf.min.js',
