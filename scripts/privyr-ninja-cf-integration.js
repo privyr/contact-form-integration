@@ -86,7 +86,6 @@ export default class PrivyrNinjaCfIntegration {
             let self = this;
             jQuery(document).on('nfFormReady', function () {
                 nfRadio.channel('forms').on('submit:response', function (form) {
-                    console.log(form, 'sssss');
                     self.processLeads(form);
                 });
             });
