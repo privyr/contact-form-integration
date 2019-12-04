@@ -2,6 +2,7 @@ import * as Sentry from '@sentry/browser/dist/index'
 
 export default class PrivyrUPCfIntegration {
     constructor(config) {
+        console.log('entered!');
         let {license_code, form_id, form_class, button_id, button_class} = config;
         this.license_code = license_code;
         let self = this;
@@ -36,6 +37,7 @@ export default class PrivyrUPCfIntegration {
             'full_url': window.location.href,
             'luid': this._fetch_lead_user_id()
         };
+        console.log(payload, 'working till here');
         let xhr = new XMLHttpRequest();
         let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/new-generic-cf-lead`;
         xhr.open('POST', post_url);
@@ -76,6 +78,7 @@ export default class PrivyrUPCfIntegration {
                 });
                 // will be posting all leads.
                 // Assumption is this listener will only be called after client side form validation is done.
+                console.log(input_fields, '=======');
                 self.postLeads(input_fields);
             } catch (err) {
                 Sentry.captureException(err);
