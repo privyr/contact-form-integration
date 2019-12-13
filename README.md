@@ -58,4 +58,28 @@ window['_pvyr_host'] = 'privyr.com';
 <!-- --- End Privyr Contact Form Integration ----->
 ```
 
+### Uplauncher Contact form
+If you are using uplauncher contact form or any other contact form with no button of type submit, 
+simply copy this code and paste in your site.
+
+NOTE: Use either of id or class for form and button, whichever available.`
+
+```html
+<!-- --- Privyr Contact Form Integration ---  -->
+<script src="https://ei.privyr.com/v2.2/pvyr-up-cf.min.js"></script>
+<script>
+window['_pvyr_cf_code'] = '<Enter license code here>';
+window['_pvyr_cf_id'] = '<Enter form id here>';
+window['_pvyr_cf_class'] = '<Enter form class here>';
+window['_pvyr_cf_btn_id'] = '<Enter submit button id here>';
+window['_pvyr_cf_btn_class'] = '<Enter submit button class here>';
+window['_pvyr_host'] = 'privyr.com';
+(function (c, n, e, p) {
+    window['_privyr_cf'] = PrivyrUPCfIntegration.run_up({"license_code": window['_pvyr_cf_code'], "form_id": window['_pvyr_cf_id'], 
+    "form_class": window['_pvyr_cf_class'], "button_id": window['_pvyr_cf_btn_id'], "button_class": window['_pvyr_cf_btn_class']});
+})(window, document);
+</script>
+<!-- --- End Privyr Contact Form Integration ----->
+```
+
 `LICENSE_CODE`: Unique code given by Privyr to users. To find out your license key, open Privyr > Settings > Integrations > Wordpress Contact form. 
