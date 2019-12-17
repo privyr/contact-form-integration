@@ -71,7 +71,16 @@ export default class PrivyrGenericCfIntegration {
             try {
                 let input_fields = [];
                 let inputs = event.target.querySelectorAll('input');
-                inputs.forEach(i => input_fields.push(this._prepare_input_obj(i, i.value)));
+                inputs.forEach(i => {
+                    if (i.type == "checkbox") {
+                        if (i.checked) {
+                            i.name = i.value;
+                            input_fields.push(this._prepare_input_obj(i, "Yes"));
+                        }
+                    } else {
+                        input_fields.push(this._prepare_input_obj(i, i.value));
+                    }
+                });
                 let selects = event.target.querySelectorAll('select');
                 selects.forEach(s => input_fields.push(this._prepare_input_obj(s,
                     Array.from(s.selectedOptions).map((elem, index) => elem.innerText).join())));

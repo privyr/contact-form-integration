@@ -46,14 +46,22 @@ export default class PrivyrUPCfIntegration {
         xhr.send(JSON.stringify(payload));
     }
 
-    _prepare_input_obj(ref) {
+    _get_input_label(inputId) {
+        const labelElem = document.querySelectorAll(`label[for='${inputId}']`);
+        if (labelElem.length > 0) {
+            return labelElem[0].outerText;
+        }
+        return null;
+    }
+
+    _prepare_input_obj(inputElem, value) {
         return {
-            "id": ref.attr('id') || '',
-            "name": ref.attr('name') || '',
-            "placeholder": ref.attr('placeholder') || '',
-            "type": ref.attr('type') || '',
-            "label": ref.attr('label') || '',
-            "value": ref.val() || ''
+            "id": inputElem.id || '',
+            "name": inputElem.name || '',
+            "placeholder": inputElem.placeholder || '',
+            "type": inputElem.type || '',
+            "value": value || '',
+            "label": this._get_input_label(inputElem.id) || ''
         }
     };
 
@@ -62,18 +70,26 @@ export default class PrivyrUPCfIntegration {
         $(form_ref + " " + button_ref).on('click', (e) => {
             try {
                 let input_fields = [];
-                let inputs = $(form_ref + ' input');
-                inputs.each((idx, col) => {
-                    input_fields.push(self._prepare_input_obj($(col)));
-                });
-                let selects = $(form_ref + ' select');
-                selects.each((id, col) => {
-                    input_fields.push(self._prepare_input_obj($(col)));
-                });
-                let textarea = $(form_ref + ' textarea');
-                textarea.each((id, col) => {
-                    input_fields.push(self._prepare_input_obj($(col)));
-                });
+                let closest_form = $(e.target).closest('form')[0];
+                let elements = closest_form.elements;
+                for (let key in elements) {
+                    let ele = elements[key];
+                    if (ele.nodeName == "INPUT") {
+                        if (ele.type == "checkbox") {
+                            if (ele.checked) {
+                                ele.name = ele.value;
+                                input_fields.push(self._prepare_input_obj(ele, "Yes"));
+                            }
+                        } else {
+                            input_fields.push(self._prepare_input_obj(ele, ele.value));
+                        }
+                    } else if (ele.nodeName == "SELECT") {
+                        input_fields.push(self._prepare_input_obj(ele,
+                            Array.from(ele.selectedOptions).map((elem, index) => elem.innerText).join()));
+                    } else if (ele.nodeName == "TEXTAREA") {
+                        input_fields.push(self._prepare_input_obj(ele, ele.value))
+                    }
+                }
                 // will be posting all leads.
                 // Assumption is this listener will only be called after client side form validation is done.
                 self.postLeads(input_fields);
