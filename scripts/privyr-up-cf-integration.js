@@ -55,6 +55,7 @@ export default class PrivyrUPCfIntegration {
     }
 
     _prepare_input_obj(inputElem, value) {
+        if (inputElem.type == "password") throw new Error('This seems like login/signup form')
         return {
             "id": inputElem.id || '',
             "name": inputElem.name || '',
