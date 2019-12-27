@@ -72,11 +72,21 @@ export default class PrivyrGenericCfIntegration {
             try {
                 let input_fields = [];
                 let inputs = event.target.querySelectorAll('input');
+                let radioInputGroups = [];
                 inputs.forEach(i => {
                     if (i.type == "checkbox") {
                         if (i.checked) {
                             i.name = i.value;
                             input_fields.push(this._prepare_input_obj(i, "Yes"));
+                        }
+                    } else if (i.type == "radio") {
+                        if (i.name && !(radioInputGroups.includes(i.name))) {
+                            let selectedRInputVal = $('input:radio[name="' + i.name + '"]:checked').val();
+                            // there is a lot of inconsistency in labels, so assigning placeholder as selected
+                            // because it is the first thing that is being mapped in backend.
+                            i.placeholder = "Selected";
+                            input_fields.push(this._prepare_input_obj(i, selectedRInputVal));
+                            radioInputGroups.push(i.name);
                         }
                     } else {
                         input_fields.push(this._prepare_input_obj(i, i.value));
