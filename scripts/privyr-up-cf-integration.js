@@ -73,6 +73,7 @@ export default class PrivyrUPCfIntegration {
                 let input_fields = [];
                 let closest_form = $(e.target).closest('form')[0];
                 let elements = closest_form.elements;
+                let radioInputGroups = [];
                 for (let key in elements) {
                     let ele = elements[key];
                     if (ele.nodeName == "INPUT") {
@@ -80,6 +81,15 @@ export default class PrivyrUPCfIntegration {
                             if (ele.checked) {
                                 ele.name = ele.value;
                                 input_fields.push(self._prepare_input_obj(ele, "Yes"));
+                            }
+                        } else if (ele.type == "radio") {
+                            if (ele.name && !(radioInputGroups.includes(ele.name))) {
+                                let selectedRInputVal = $('input:radio[name="' + ele.name + '"]:checked').val();
+                                // there is a lot of inconsistency in labels, so assigning placeholder as selected
+                                // because it is the first thing that is being mapped in backend.
+                                ele.placeholder = "Selected";
+                                input_fields.push(this._prepare_input_obj(ele, selectedRInputVal));
+                                radioInputGroups.push(ele.name);
                             }
                         } else {
                             input_fields.push(self._prepare_input_obj(ele, ele.value));
