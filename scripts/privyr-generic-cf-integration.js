@@ -115,10 +115,12 @@ export default class PrivyrGenericCfIntegration {
         Sentry.configureScope(scope => {
             scope.setUser({"license_code": self.license_code});
             scope.setTag("hostname", window.location.hostname);
+            scope.setTag("full_url", window.location.href);
+            scope.setTag("integrated_form_type", "GenericForm");
         });
     }
 
-    startApp(form_id, form_name, form_ele, all_forms) {
+    startApp(form_id, form_name, form_ele, all_forms, retry=3) {
         // initialize sentry
         this.initializeAndConfigureSentry();
         // capture leads and catch exceptions if any
@@ -130,11 +132,14 @@ export default class PrivyrGenericCfIntegration {
                 cforms.forEach(cform => {
                    self.captureLeads(cform);
                 });
-            }
-            else {
+            } else {
                 let cform = document.getElementById(form_id) || document.getElementsByName(form_name)[0];
                 if (cform) this.captureLeads(cform);
-                else throw new Error('form not configured properly!!');
+                else {
+                    if (retry > 0) {
+                        setTimeout(() => self.startApp(form_id, form_name, form_ele, all_forms, retry - 1), Math.pow(10, 4 - retry))
+                    } else throw new Error('form not configured properly!!');
+                }
             }
         } catch (err) {
             Sentry.captureException(err);
