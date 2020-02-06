@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser/dist/index'
 
 export default class PrivyrUPCfIntegration {
     constructor(config) {
-        let {license_code, form_id, form_class, button_id, button_class} = config;
+        let { license_code } = config;
         this.license_code = license_code;
         let self = this;
         document.onreadystatechange = () => {
@@ -66,18 +66,24 @@ export default class PrivyrUPCfIntegration {
         }
     };
 
-    processLeads(form_ref, button_ref) {
+    processLeads(button_ref) {
         let self = this;
-        $(form_ref + " " + button_ref).on('click', (e) => {
+        // TODO: add heartbeat here !!!!!!!
+        $(button_ref).on('click', (e) => {
             try {
                 let input_fields = [];
                 let closest_form = $(e.target).closest('form')[0];
+                if (!closest_form) return;
                 let elements = closest_form.elements;
                 let radioInputGroups = [];
                 for (let key in elements) {
                     let ele = elements[key];
                     if (ele.nodeName == "INPUT") {
-                        if (ele.type == "checkbox") {
+                        if (ele.type == "file") {
+                            // ignore, do not include
+                            return;
+                        }
+                        else if (ele.type == "checkbox") {
                             if (ele.checked) {
                                 ele.name = ele.value;
                                 input_fields.push(self._prepare_input_obj(ele, "Yes"));
@@ -124,25 +130,34 @@ export default class PrivyrUPCfIntegration {
         });
     }
 
-    startApp(config, retry=3) {
+    startApp(config, retry = 3) {
         // initialize sentry
         this.initializeAndConfigureSentry();
         // capture leads and catch exceptions if any
         try {
             let self = this;
-            let {form_id, form_class, button_id, button_class} = config;
-            if ((form_id || form_class) && (button_id || button_class)) {
-                $('document').ready(() => {
-                    let form_ref = form_id ? "#" + form_id : "." + form_class;
-                    let button_ref = button_id ? "#" + button_id : "." + button_class;
-                    self.processLeads(form_ref, button_ref);
+            let {btns_id, btns_class} = config;
+            let cFormBtns = [];
+            if (btns_id) {
+                btns_id.forEach(btn_id => {
+                    let cFormBtn = document.getElementById(btn_id);
+                    if (cFormBtn) cFormBtns.push('#' + btn_id);
                 });
-            } else {
-                if (retry > 0) {
-                    setTimeout(() => self.startApp(config, retry-1), Math.pow(10, 4-retry))
-                }
-                else throw new Error('form not configured properly!!');
             }
+            if (btns_class) {
+                btns_class.forEach(btn_class => {
+                    let btns = document.getElementsByClassName(btn_class);
+                    if (btns.length > 0) cFormBtns.push('.' + btn_class);
+                });
+            }
+
+            if (cFormBtns.length > 0) {
+                let self = this;
+                cFormBtns.forEach(cformBtn => {
+                    self.processLeads(cformBtn);
+                });
+            } else if (retry > 0) setTimeout(() => self.startApp(config, retry - 1), Math.pow(10, 4 - retry));
+            else throw new Error('form not configured properly!!');
         } catch (err) {
             Sentry.captureException(err);
         }
