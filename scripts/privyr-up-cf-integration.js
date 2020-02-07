@@ -69,7 +69,7 @@ export default class PrivyrUPCfIntegration {
     processLeads(button_ref) {
         let self = this;
         // TODO: add heartbeat here !!!!!!!
-        $(button_ref).on('click', (e) => {
+        $(button_ref).click(e => {
             try {
                 let input_fields = [];
                 let closest_form = $(e.target).closest('form')[0];
