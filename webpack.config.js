@@ -59,4 +59,18 @@ module.exports = [{
             use: ['babel-loader']
         }]
     }
+}, {
+    entry: './app/wpcf7-app.js',
+    output: {
+        path: outputDir,
+        filename: 'pvyr-wpcf7.min.js',
+        libraryTarget: 'var',
+        library: 'PrivyrWP'
+    },
+    module: {
+        rules: [{
+            test: /\.js$/,
+            use: ['babel-loader']
+        }]
+    }
 }];

@@ -1,11 +1,15 @@
-class PrivyrWP {
+import * as Sentry from '@sentry/browser/dist/index'
+
+export default class PrivyrWP {
     constructor(license_code, name, email, phonenumber) {
         this.license_code = license_code;
         this.field_names = {};
         this.initializeInputIdsToPrivyr(name, email, phonenumber);
+        let self = this;
         document.onreadystatechange = () => {
             if (document.readyState === "complete") {
-                window['_privyr_wpcf7'].captureLeads();
+                self.initializeAndConfigureSentry();
+                self.captureLeads();
             }
         }
     }
@@ -45,13 +49,35 @@ class PrivyrWP {
 
     captureLeads() {
         let self = this;
+        // TODO: add heartbeat here !!!!!!!
+        // this listener is attached to document, so multiple cf7 can be listened on the same page
         document.addEventListener('wpcf7submit', (event) => {
-            let status = event.detail.apiResponse.status; // Possible values: "validation_failed", "mail_failed", "success"
-            // DO NOT Proceed if status is validation failed
-            if (status === "validation_failed"){return;}
-            // Proceed in other cases.
-            let inputs = event.detail.inputs;
-            self.postLeads(self.mapIds(inputs));
+            try {
+                let status = event.detail.apiResponse.status; // Possible values: "validation_failed", "mail_failed", "success"
+                // DO NOT Proceed if status is validation failed
+                if (status === "validation_failed") {
+                    return;
+                }
+                // Proceed in other cases.
+                let inputs = event.detail.inputs;
+                self.postLeads(self.mapIds(inputs));
+            } catch (err) {
+                Sentry.captureException(err);
+            }
         }, false);
+    }
+
+    initializeAndConfigureSentry() {
+        let self = this;
+        Sentry.init({
+            dsn: 'https://ad94bc20259c4fa4b0feb9f1fc20e483@sentry.io/1407925',
+            defaultIntegrations: false
+        });
+        Sentry.configureScope(scope => {
+            scope.setUser({"license_code": self.license_code});
+            scope.setTag("hostname", window.location.hostname);
+            scope.setTag("full_url", window.location.href);
+            scope.setTag("integrated_form_type", "WPCF7Form");
+        });
     }
 }

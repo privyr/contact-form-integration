@@ -2,12 +2,12 @@ import * as Sentry from '@sentry/browser/dist/index'
 
 export default class PrivyrGenericCfIntegration {
     constructor(config) {
-        let {license_code, form_id, form_name, form_ele, all_forms} = config;
+        let {license_code} = config;
         this.license_code = license_code;
         let self = this;
         document.onreadystatechange = () => {
             if (document.readyState === "complete") {
-                self.startApp(form_id, form_name, form_ele, all_forms);
+                self.startApp(config);
             }
         }
     }
@@ -68,13 +68,17 @@ export default class PrivyrGenericCfIntegration {
 
     captureLeads(cform) {
         let self = this;
+        // TODO: add heartbeat here !!!!!!!
         cform.addEventListener('submit', (event) => {
             try {
                 let input_fields = [];
                 let inputs = event.target.querySelectorAll('input');
                 let radioInputGroups = [];
                 inputs.forEach(i => {
-                    if (i.type == "checkbox") {
+                    if (i.type == "file") {
+                        // ignore, do not include
+                        return;
+                    } else if (i.type == "checkbox") {
                         if (i.checked) {
                             i.name = i.value;
                             input_fields.push(this._prepare_input_obj(i, "Yes"));
@@ -115,10 +119,13 @@ export default class PrivyrGenericCfIntegration {
         Sentry.configureScope(scope => {
             scope.setUser({"license_code": self.license_code});
             scope.setTag("hostname", window.location.hostname);
+            scope.setTag("full_url", window.location.href);
+            scope.setTag("integrated_form_type", "GenericForm");
         });
     }
 
-    startApp(form_id, form_name, form_ele, all_forms) {
+    startApp(config, retry = 3) {
+        let {form_id, form_name, form_ele, form_class, all_forms} = config;
         // initialize sentry
         this.initializeAndConfigureSentry();
         // capture leads and catch exceptions if any
@@ -126,14 +133,19 @@ export default class PrivyrGenericCfIntegration {
             if (form_ele) this.captureLeads(form_ele);
             else if (all_forms) {
                 let cforms = document.querySelectorAll('form');
-                let self = this;
-                cforms.forEach(cform => {
-                   self.captureLeads(cform);
-                });
-            }
-            else {
-                let cform = document.getElementById(form_id) || document.getElementsByName(form_name)[0];
+                if (cforms.length > 0) {
+                    let self = this;
+                    cforms.forEach(cform => {
+                        self.captureLeads(cform);
+                    });
+                } else if (retry > 0) setTimeout(() => self.startApp(config, retry - 1), Math.pow(10, 4 - retry));
+                else throw new Error('form not configured properly!!');
+            } else {
+                let cform = document.getElementById(form_id) ||
+                    document.getElementsByName(form_name)[0] ||
+                    document.getElementsByClassName(form_class)[0];
                 if (cform) this.captureLeads(cform);
+                else if (retry > 0) setTimeout(() => self.startApp(config, retry - 1), Math.pow(10, 4 - retry));
                 else throw new Error('form not configured properly!!');
             }
         } catch (err) {
