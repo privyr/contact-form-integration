@@ -28,6 +28,16 @@ export default class PrivyrUPCfIntegration {
         return luid;
     }
 
+    _post_xhr_request(post_url, payload, async=false) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', post_url, async);
+        xhr.onload = () => {
+            console.log(xhr.status);
+        };
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(payload));
+    }
+
     postLeads(lead) {
         let payload = {
             'license_code': this.license_code,
@@ -36,14 +46,8 @@ export default class PrivyrUPCfIntegration {
             'full_url': window.location.href,
             'luid': this._fetch_lead_user_id()
         };
-        let xhr = new XMLHttpRequest();
         let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/new-generic-cf-lead`;
-        xhr.open('POST', post_url);
-        xhr.onload = () => {
-            console.log(xhr.status);
-        };
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(payload));
+        this._post_xhr_request(post_url, payload);
     }
 
     _get_input_label(inputId) {
@@ -65,6 +69,17 @@ export default class PrivyrUPCfIntegration {
             "label": this._get_input_label(inputElem.id) || ''
         }
     };
+
+    _sending_beat() {
+        let payload = {
+            "license_code": this.license_code,
+            "full_url": window.location.href,
+            "hostname": window.location.hostname,
+            "integrated_form_type": "GenericForm"
+        }
+        let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
+        this._post_xhr_request(post_url, payload, async);
+    }
 
     processLeads(button_ref) {
         let self = this;

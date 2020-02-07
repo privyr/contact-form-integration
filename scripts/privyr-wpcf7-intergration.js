@@ -30,6 +30,16 @@ export default class PrivyrWP {
         return inputs;
     }
 
+    _post_xhr_request(post_url, payload, async=false) {
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', post_url, async);
+        xhr.onload = () => {
+            console.log(xhr.status);
+        };
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(payload));
+    }
+
     postLeads(lead) {
         let payload = {
             'license_code': this.license_code,
@@ -37,14 +47,19 @@ export default class PrivyrWP {
             'hostname': window.location.hostname,
             'full_url': window.location.href
         };
-        let xhr = new XMLHttpRequest();
         let post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
-        xhr.open('POST', post_url);
-        xhr.onload = () => {
-            console.log(xhr.status);
-        };
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(payload));
+        this._post_xhr_request(post_url, payload)
+    }
+
+    _sending_beat() {
+        let payload = {
+            "license_code": this.license_code,
+            "full_url": window.location.href,
+            "hostname": window.location.hostname,
+            "integrated_form_type": "GenericForm"
+        }
+        let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
+        this._post_xhr_request(post_url, payload, async);
     }
 
     captureLeads() {
