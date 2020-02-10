@@ -125,6 +125,7 @@ export default class PrivyrGenericCfIntegration {
     }
 
     startApp(config, retry = 3) {
+        let self = this;
         let {form_id, form_name, form_ele, form_class, all_forms} = config;
         // initialize sentry
         this.initializeAndConfigureSentry();
@@ -134,7 +135,6 @@ export default class PrivyrGenericCfIntegration {
             else if (all_forms) {
                 let cforms = document.querySelectorAll('form');
                 if (cforms.length > 0) {
-                    let self = this;
                     cforms.forEach(cform => {
                         self.captureLeads(cform);
                     });
