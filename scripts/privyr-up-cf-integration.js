@@ -131,11 +131,11 @@ export default class PrivyrUPCfIntegration {
     }
 
     startApp(config, retry = 3) {
+        let self = this;
         // initialize sentry
         this.initializeAndConfigureSentry();
         // capture leads and catch exceptions if any
         try {
-            let self = this;
             let {btns_id, btns_class} = config;
             let cFormBtns = [];
             if (btns_id) {
@@ -152,7 +152,6 @@ export default class PrivyrUPCfIntegration {
             }
 
             if (cFormBtns.length > 0) {
-                let self = this;
                 cFormBtns.forEach(cformBtn => {
                     self.processLeads(cformBtn);
                 });
