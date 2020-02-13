@@ -1,4 +1,5 @@
 import * as Sentry from '@sentry/browser/dist/index'
+import $ from 'jquery'
 
 export default class PrivyrGenericCfIntegration {
     constructor(config) {
