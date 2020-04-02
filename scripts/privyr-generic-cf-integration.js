@@ -83,7 +83,6 @@ export default class PrivyrGenericCfIntegration {
 
     captureLeads(cform) {
         let self = this;
-        // TODO: add heartbeat here !!!!!!!
         cform.addEventListener('submit', (event) => {
             try {
                 let input_fields = [];
@@ -123,6 +122,8 @@ export default class PrivyrGenericCfIntegration {
                 Sentry.captureException(err);
             }
         });
+        // This sends beat everytime this script is loaded and a listener is attached
+        this._sending_beat();
     }
 
     initializeAndConfigureSentry() {

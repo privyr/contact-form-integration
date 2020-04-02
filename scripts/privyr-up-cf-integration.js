@@ -75,7 +75,7 @@ export default class PrivyrUPCfIntegration {
             "license_code": this.license_code,
             "full_url": window.location.href,
             "hostname": window.location.hostname,
-            "integrated_form_type": "GenericForm"
+            "integrated_form_type": "UPForm"
         }
         let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
         this._post_xhr_request(post_url, payload, async);
@@ -83,7 +83,6 @@ export default class PrivyrUPCfIntegration {
 
     processLeads(button_ref) {
         let self = this;
-        // TODO: add heartbeat here !!!!!!!
         $(button_ref).click(e => {
             try {
                 let input_fields = [];
@@ -171,6 +170,9 @@ export default class PrivyrUPCfIntegration {
                 cFormBtns.forEach(cformBtn => {
                     self.processLeads(cformBtn);
                 });
+                // This sends beat everytime this script is loaded and a listener is attached
+                this._sending_beat();
+
             } else if (retry > 0) setTimeout(() => self.startApp(config, retry - 1), Math.pow(10, 4 - retry));
             else throw new Error('form not configured properly!!');
         } catch (err) {
