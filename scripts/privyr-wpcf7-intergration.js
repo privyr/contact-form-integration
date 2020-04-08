@@ -56,7 +56,7 @@ export default class PrivyrWP {
         console.log("Beat is initialized!!!");
         let payload = {
             "license_code": this.license_code,
-            "full_url": window.location.href,
+            "full_url": window.location.protocol + '//' + window.location.host + window.location.pathname,
             "hostname": window.location.hostname,
             "integrated_form_type": "WPCF7Form"
         }
