@@ -29,7 +29,8 @@ export default class PrivyrUPCfIntegration {
         return luid;
     }
 
-    _post_xhr_request(post_url, payload, async=false) {
+    _post_xhr_request(post_url, payload, async) {
+        async = async || false;
         let xhr = new XMLHttpRequest();
         xhr.open('POST', post_url, async);
         xhr.onload = () => {
@@ -72,6 +73,7 @@ export default class PrivyrUPCfIntegration {
     };
 
     _sending_beat() {
+        console.log("Beat is initialized!!!");
         let payload = {
             "license_code": this.license_code,
             "full_url": window.location.href,
@@ -79,7 +81,7 @@ export default class PrivyrUPCfIntegration {
             "integrated_form_type": "UPForm"
         }
         let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
-        this._post_xhr_request(post_url, payload, async);
+        this._post_xhr_request(post_url, payload, true);
     }
 
     processLeads(button_ref) {
