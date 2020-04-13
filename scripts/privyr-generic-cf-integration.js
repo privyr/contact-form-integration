@@ -29,6 +29,17 @@ export default class PrivyrGenericCfIntegration {
         return luid;
     }
 
+    _post_xhr_request(post_url, payload, async) {
+        async = async || false;
+        let xhr = new XMLHttpRequest();
+        xhr.open('POST', post_url, async);
+        xhr.onload = () => {
+            console.log(xhr.status);
+        };
+        xhr.setRequestHeader("Content-Type", "application/json");
+        xhr.send(JSON.stringify(payload));
+    }
+
     postLeads(lead) {
         let payload = {
             'license_code': this.license_code,
@@ -37,14 +48,8 @@ export default class PrivyrGenericCfIntegration {
             'full_url': window.location.href,
             'luid': this._fetch_lead_user_id()
         };
-        let xhr = new XMLHttpRequest();
         let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/new-generic-cf-lead`;
-        xhr.open('POST', post_url);
-        xhr.onload = () => {
-            console.log(xhr.status);
-        };
-        xhr.setRequestHeader("Content-Type", "application/json");
-        xhr.send(JSON.stringify(payload));
+        this._post_xhr_request(post_url, payload);
     }
 
     _get_input_label(inputId) {
@@ -67,9 +72,20 @@ export default class PrivyrGenericCfIntegration {
         }
     };
 
+    _sending_beat() {
+        console.log("Beat is initialized!!!");
+        let payload = {
+            "license_code": this.license_code,
+            "full_url": window.location.protocol + '//' + window.location.host + window.location.pathname,
+            "hostname": window.location.hostname,
+            "integrated_form_type": "GenericForm"
+        }
+        let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
+        this._post_xhr_request(post_url, payload, true);
+    }
+
     captureLeads(cform) {
         let self = this;
-        // TODO: add heartbeat here !!!!!!!
         cform.addEventListener('submit', (event) => {
             try {
                 let input_fields = [];
@@ -109,6 +125,8 @@ export default class PrivyrGenericCfIntegration {
                 Sentry.captureException(err);
             }
         });
+        // This sends beat everytime this script is loaded and a listener is attached
+        this._sending_beat();
     }
 
     initializeAndConfigureSentry() {

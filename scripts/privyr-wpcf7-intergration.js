@@ -30,16 +30,10 @@ export default class PrivyrWP {
         return inputs;
     }
 
-    postLeads(lead) {
-        let payload = {
-            'license_code': this.license_code,
-            'lead': lead,
-            'hostname': window.location.hostname,
-            'full_url': window.location.href
-        };
+    _post_xhr_request(post_url, payload, async) {
+        async = async || false;
         let xhr = new XMLHttpRequest();
-        let post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
-        xhr.open('POST', post_url);
+        xhr.open('POST', post_url, async);
         xhr.onload = () => {
             console.log(xhr.status);
         };
@@ -47,9 +41,31 @@ export default class PrivyrWP {
         xhr.send(JSON.stringify(payload));
     }
 
+    postLeads(lead) {
+        let payload = {
+            'license_code': this.license_code,
+            'lead': lead,
+            'hostname': window.location.hostname,
+            'full_url': window.location.href
+        };
+        let post_url = 'https://www.{host}/integrations/api/v1/new-wpcf7-lead'.replace('{host}', window['_pvyr_host']);
+        this._post_xhr_request(post_url, payload)
+    }
+
+    _sending_beat() {
+        console.log("Beat is initialized!!!");
+        let payload = {
+            "license_code": this.license_code,
+            "full_url": window.location.protocol + '//' + window.location.host + window.location.pathname,
+            "hostname": window.location.hostname,
+            "integrated_form_type": "WPCF7Form"
+        }
+        let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
+        this._post_xhr_request(post_url, payload, true);
+    }
+
     captureLeads() {
         let self = this;
-        // TODO: add heartbeat here !!!!!!!
         // this listener is attached to document, so multiple cf7 can be listened on the same page
         document.addEventListener('wpcf7submit', (event) => {
             try {
@@ -65,6 +81,8 @@ export default class PrivyrWP {
                 Sentry.captureException(err);
             }
         }, false);
+        // This sends beat everytime this script is loaded and a listener is attached
+        this._sending_beat();
     }
 
     initializeAndConfigureSentry() {
