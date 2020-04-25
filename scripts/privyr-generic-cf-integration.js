@@ -132,7 +132,7 @@ export default class PrivyrGenericCfIntegration {
     initializeAndConfigureSentry() {
         let self = this;
         Sentry.init({
-            dsn: 'https://ad94bc20259c4fa4b0feb9f1fc20e483@sentry.io/1407925',
+            dsn: 'https://2a012299e8c04df985e58df6ea529c7d@o382871.ingest.sentry.io/5213384',
             defaultIntegrations: false
         });
         Sentry.configureScope(scope => {
