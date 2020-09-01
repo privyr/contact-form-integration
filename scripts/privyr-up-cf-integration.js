@@ -74,14 +74,15 @@ export default class PrivyrUPCfIntegration {
 
     _sending_beat() {
         console.log("Beat is initialized!!!");
-        let payload = {
-            "license_code": this.license_code,
-            "full_url": window.location.protocol + '//' + window.location.host + window.location.pathname,
-            "hostname": window.location.hostname,
-            "integrated_form_type": "UPForm"
-        }
-        let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
-        this._post_xhr_request(post_url, payload, true);
+        // FIXME: commenting becuse of unneccessary requests
+        // let payload = {
+        //     "license_code": this.license_code,
+        //     "full_url": window.location.protocol + '//' + window.location.host + window.location.pathname,
+        //     "hostname": window.location.hostname,
+        //     "integrated_form_type": "UPForm"
+        // }
+        // let post_url = `https://www.${window['_pvyr_host']}/integrations/api/v1/website-cf-beat`;
+        // this._post_xhr_request(post_url, payload, true);
     }
 
     processLeads(button_ref) {
