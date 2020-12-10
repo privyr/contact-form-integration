@@ -87,7 +87,7 @@ export default class PrivyrUPCfIntegration {
 
     processLeads(button_ref) {
         let self = this;
-        $(button_ref).click(e => {
+        button_ref.addEventListener('click' , (e => {
             try {
                 let input_fields = [];
                 let closest_form = $(e.target).closest('form')[0];
@@ -131,7 +131,7 @@ export default class PrivyrUPCfIntegration {
             } catch (err) {
                 Sentry.captureException(err);
             }
-        });
+        }));
     }
 
     initializeAndConfigureSentry() {

@@ -1,5 +1,6 @@
 import * as Sentry from '@sentry/browser/dist/index'
 import $ from 'jquery'
+window.pvyrjq = $.noConflict();
 
 export default class PrivyrGenericCfIntegration {
     constructor(config) {
@@ -103,7 +104,7 @@ export default class PrivyrGenericCfIntegration {
                         }
                     } else if (i.type == "radio") {
                         if (i.name && !(radioInputGroups.includes(i.name))) {
-                            let selectedRInputVal = $('input:radio[name="' + i.name + '"]:checked').val();
+                            let selectedRInputVal = window.pvyrjq('input:radio[name="' + i.name + '"]:checked').val();
                             // there is a lot of inconsistency in labels, so assigning placeholder as selected
                             // because it is the first thing that is being mapped in backend.
                             i.placeholder = "Selected";
