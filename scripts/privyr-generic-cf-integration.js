@@ -7,9 +7,13 @@ export default class PrivyrGenericCfIntegration {
         let {license_code} = config;
         this.license_code = license_code;
         let self = this;
-        document.onreadystatechange = () => {
-            if (document.readyState === "complete") {
-                self.startApp(config);
+        if (document.readyState === "complete") {
+            self.startApp(config);
+        } else {
+            document.onreadystatechange = () => {
+                if (document.readyState === "complete") {
+                    self.startApp(config);
+                }
             }
         }
     }
