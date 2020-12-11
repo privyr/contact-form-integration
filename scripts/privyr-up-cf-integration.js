@@ -1,14 +1,20 @@
 import * as Sentry from '@sentry/browser/dist/index'
 import $ from 'jquery'
+window.pvyrjq = $.noConflict();
+
 
 export default class PrivyrUPCfIntegration {
     constructor(config) {
         let { license_code } = config;
         this.license_code = license_code;
         let self = this;
-        document.onreadystatechange = () => {
-            if (document.readyState === "complete") {
-                self.startApp(config);
+        if (document.readyState === "complete") {
+            self.startApp(config);
+        } else {
+            document.onreadystatechange = () => {
+                if (document.readyState === "complete") {
+                    self.startApp(config);
+                }
             }
         }
     }
@@ -87,10 +93,10 @@ export default class PrivyrUPCfIntegration {
 
     processLeads(button_ref) {
         let self = this;
-        button_ref.addEventListener('click' , (e => {
+        window.pvyrjq(button_ref).click(e => {
             try {
                 let input_fields = [];
-                let closest_form = $(e.target).closest('form')[0];
+                let closest_form = window.pvyrjq(e.target).closest('form')[0];
                 if (!closest_form) return;
                 let elements = closest_form.elements;
                 let radioInputGroups = [];
@@ -108,7 +114,7 @@ export default class PrivyrUPCfIntegration {
                             }
                         } else if (ele.type == "radio") {
                             if (ele.name && !(radioInputGroups.includes(ele.name))) {
-                                let selectedRInputVal = $('input:radio[name="' + ele.name + '"]:checked').val();
+                                let selectedRInputVal = window.pvyrjq('input:radio[name="' + ele.name + '"]:checked').val();
                                 // there is a lot of inconsistency in labels, so assigning placeholder as selected
                                 // because it is the first thing that is being mapped in backend.
                                 ele.placeholder = "Selected";
@@ -131,7 +137,7 @@ export default class PrivyrUPCfIntegration {
             } catch (err) {
                 Sentry.captureException(err);
             }
-        }));
+        });
     }
 
     initializeAndConfigureSentry() {
