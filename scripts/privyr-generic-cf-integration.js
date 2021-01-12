@@ -98,25 +98,26 @@ export default class PrivyrGenericCfIntegration {
                 let inputs = event.target.querySelectorAll('input');
                 let radioInputGroups = [];
                 inputs.forEach(i => {
-                    if (i.type == "file") {
+                    let item = window.pvyrjq.extend(true, [], i);
+                    if (item.type == "file") {
                         // ignore, do not include
                         return;
-                    } else if (i.type == "checkbox") {
-                        if (i.checked) {
-                            i.name = i.value;
-                            input_fields.push(this._prepare_input_obj(i, "Yes"));
+                    } else if (item.type == "checkbox") {
+                        if (item.checked) {
+                            item.name = item.value;
+                            input_fields.push(this._prepare_input_obj(item, "Yes"));
                         }
-                    } else if (i.type == "radio") {
-                        if (i.name && !(radioInputGroups.includes(i.name))) {
-                            let selectedRInputVal = window.pvyrjq('input:radio[name="' + i.name + '"]:checked').val();
+                    } else if (item.type == "radio") {
+                        if (item.name && !(radioInputGroups.includes(item.name))) {
+                            let selectedRInputVal = window.pvyrjq('input:radio[name="' + item.name + '"]:checked').val();
                             // there is a lot of inconsistency in labels, so assigning placeholder as selected
                             // because it is the first thing that is being mapped in backend.
-                            i.placeholder = "Selected";
-                            input_fields.push(this._prepare_input_obj(i, selectedRInputVal));
-                            radioInputGroups.push(i.name);
+                            item.placeholder = "Selected";
+                            input_fields.push(this._prepare_input_obj(item, selectedRInputVal));
+                            radioInputGroups.push(item.name);
                         }
                     } else {
-                        input_fields.push(this._prepare_input_obj(i, i.value));
+                        input_fields.push(this._prepare_input_obj(item, item.value));
                     }
                 });
                 let selects = event.target.querySelectorAll('select');

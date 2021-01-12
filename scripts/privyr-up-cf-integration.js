@@ -101,7 +101,7 @@ export default class PrivyrUPCfIntegration {
                 let elements = closest_form.elements;
                 let radioInputGroups = [];
                 for (let key in elements) {
-                    let ele = elements[key];
+                    let ele = window.pvyrjq.extend(true, [], elements[key]);
                     if (ele.nodeName == "INPUT") {
                         if (ele.type == "file") {
                             // ignore, do not include
