@@ -82,7 +82,7 @@ privyrScript.addEventListener('load', function () {
     window['_pvyr_host'] = 'privyr.com';
     (function (c, n, e, p) {
         window['_privyr_cf'] = PrivyrUPCfIntegration.run_up({"license_code": window['_pvyr_cf_code'], "form_id": window['_pvyr_cf_id'], 
-        "form_class": window['_pvyr_cf_class'], "button_id": window['_pvyr_cf_btn_id'], "button_class": window['_pvyr_cf_btn_class']});
+        "form_class": window['_pvyr_cf_class'], "btns_id": window['_pvyr_cf_btn_id'], "btns_class": window['_pvyr_cf_btn_class']});
     })(window, document);
     
 });
